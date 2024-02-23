@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import fs from 'fs'
+import env from '@/utils/env';
 
 const app = Fastify();
 
@@ -11,6 +12,6 @@ fs.readdirSync('./src/routes/').forEach(file => {
 
 
 app.listen({
-  port: Number(process.env.PORT) || 3333,
-}, () => console.log(`Server is running on port ${process.env.PORT || 3333}`))
+  port: Number(env.PORT),
+}, () => console.log(`Server is running on port ${env.PORT}`))
 
