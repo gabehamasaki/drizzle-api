@@ -9,8 +9,10 @@ export default async function getUsers(app: FastifyInstance) {
       name: usersSchema.name,
       email: usersSchema.email,
     }).from(usersSchema);
-    return reply.status(200).send({ data: {
-      users
-    } });
+    return reply.status(200).send({
+      data: {
+        users
+      }
+    });
   })
 }
