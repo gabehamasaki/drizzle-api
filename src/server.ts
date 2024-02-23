@@ -20,6 +20,6 @@ fs.readdirSync('./src/routes/').forEach(file => {
 
 
 app.listen({
-  port: Number(env.PORT),
+  port: env.PORT,
 })
 
