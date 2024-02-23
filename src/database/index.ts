@@ -1,13 +1,15 @@
+import env from "@/utils/env";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from 'pg'
 
 export const client = new Client({
-  host: 'localhost',
-  port: 5432,
-  user: 'gabriel',
-  password: '038221',
-  database: 'clouddrizzle',
+  host: env.DATABASE_HOST,
+  port: Number(env.DATABASE_PORT),
+  user: env.DATABASE_USER,
+  password:  env.DATABASE_PASSWORD,
+  database: env.DATABASE_DB,
 })
 
-await client.connect()
+await client.connect();
+
 export const db = drizzle(client)
