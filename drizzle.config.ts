@@ -9,6 +9,6 @@ export default {
     host: env.DATABASE_HOST,
     user: env.DATABASE_USER,
     password: env.DATABASE_PASSWORD,
-    database: env.DATABASE_DB,
+    database: env.DATABASE_NAME,
   },
 } satisfies Config;

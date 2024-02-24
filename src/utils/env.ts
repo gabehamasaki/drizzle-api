@@ -4,7 +4,7 @@ const envSchema = z.object({
   PORT: z.string().default('3333').transform((val) => Number(val)),
   DATABASE_HOST: z.string(),
   DATABASE_PORT: z.string().transform((val) => Number(val)),
-  DATABASE_DB: z.string(),
+  DATABASE_NAME: z.string(),
   DATABASE_USER: z.string(),
   DATABASE_PASSWORD: z.string(),
 })
