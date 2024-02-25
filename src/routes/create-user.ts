@@ -14,7 +14,7 @@ export default async function createUser(app: FastifyInstance) {
         password: await hash(password),
       })
     } catch (error) {
-      reply.status(400).send({ error: "Error to create user" });
+      return reply.status(400).send({ error: "Error to create user" });
     }
 
     return reply.status(201).send({ message: "User created" });

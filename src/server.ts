@@ -1,26 +1,48 @@
 import Fastify from 'fastify'
-import fs from 'fs'
 import env from '@/utils/env';
-import logger from '@/utils/log';
-import errorHandler from './utils/error';
 import migrate from './database/migrate';
+import getUsers from './routes/get-users';
+import createUser from './routes/create-user';
+import editUser from './routes/edit-user';
+import showUser from './routes/show-user';
 
 // Application logger
 const app = Fastify({
-  logger
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: true,
+        ignore: 'pid,hostname,reqId,responseTime,res,req',
+        messageFormat: '{if req.method}{req.method} - {end} {if req.url} {req.url} - {end} {if res.statusCode} StatusCode: {res.statusCode} - {end}{msg}'
+      }
+    },
+  }
 });
 
 // Application error handler
-app.setErrorHandler((error, request, reply) => errorHandler(app, error, request, reply));
+app.setErrorHandler((error, request, reply) => {
+  if (error.name == 'ZodError') {
+    return reply.status(400).send({
+      statusCode: 400,
+      errors: JSON.parse(error.message)
+    });
+  }
 
-app.addHook('onReady', async () => {
-  await migrate(app);
+  if (error.name) {
+    app.errorHandler(error, request, reply);
+  }
 });
 
-// Dynamic import routes
-fs.readdirSync('./src/routes/').forEach(file => {
-  const route = import(`@/routes/${file}`)
-  app.register(route)
+// Application routes
+app.register(async (app) => {
+  app.register(getUsers);
+  app.register(createUser);
+  app.register(editUser);
+  app.register(showUser);
+
+}, {
+  prefix: '/api/v1'
 })
 
 

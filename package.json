@@ -3,9 +3,8 @@
   "module": "server.ts",
   "type": "module",
   "scripts": {
-    "db:start": "docker start postgres",
     "dev": "clear && bun --watch src/server.ts",
-    "migrate": "bun drizzle-kit generate:pg"
+    "migrate": "bun drizzle-kit generate:pg && bun drizzle-kit push:pg"
   },
   "devDependencies": {
     "@types/bun": "latest",
